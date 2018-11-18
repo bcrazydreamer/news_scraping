@@ -34,3 +34,11 @@ const option_obj = {
                   'Thiruvananthapuram' ],
     'World'       : ['US','NRI','Chaina','South Asia']
 }
+
+function UpDateTimeInContainer(doc){
+  var timeLive = setInterval(function(){
+    var time = new Date();
+    time = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second:'numeric', hour12: true });
+    $(doc).html(time);
+  }, 1000);
+}

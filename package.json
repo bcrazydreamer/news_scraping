@@ -17,12 +17,14 @@
     "fs": "0.0.1-security",
     "https": "^1.0.0",
     "mongoose": "^5.3.10",
+    "morgan": "^1.9.1",
     "node": "^10.4.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "request": "^2.88.0",
     "rss-parser": "^3.5.3",
     "session": "^0.1.0",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "weather-js": "^2.0.0"
   }
 }

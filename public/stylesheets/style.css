@@ -5,6 +5,11 @@ box-shadow: 0 0 10px rgba(0,0,0,0.6);
 -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.6);
 -o-box-shadow: 0 0 10px rgba(0,0,0,0.6);
 }
+.allSidesSoft/*crazydreamer*/
+{
+  box-shadow:0 3px 10px 0 rgba(115,143,147,.3);
+}
+
 .unselectable/*crazydreamer*/
 {
 -webkit-touch-callout: none;
@@ -17,4 +22,20 @@ user-select: none;
 ::-webkit-scrollbar {
     width: 0px;
     background: transparent;
+}
+
+CrazySpinner{
+  display: none !important;
+}
+@-webkit-keyframes rotation {
+		from {
+				-webkit-transform: rotate(0deg);
+		}
+		to {
+				-webkit-transform: rotate(359deg);
+		}
+}
+
+.infinite-rotation {
+		-webkit-animation: rotation 2s infinite linear;
 }
