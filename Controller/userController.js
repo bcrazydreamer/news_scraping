@@ -1,4 +1,4 @@
-var services                = require('../Services');
+var services                = require('../services');
 var mongoose                = require('mongoose');
 
 
