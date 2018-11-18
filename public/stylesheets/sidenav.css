@@ -4,6 +4,10 @@
   color:white;
   padding-left:200px;
 }
+.sidenav_img_top img {
+    width: 100%;
+    height: 56px !important;
+}
 li{
   list-style-type: none;
 }
