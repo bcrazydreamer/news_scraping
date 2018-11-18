@@ -1,0 +1,104 @@
+<%- include('../Partials/Adminheader.ejs') %>
+<div class='container'>
+  <div style="margin-top:30px;">
+    <div class="col-12">
+          <div class="card allSidesSoft">
+              <div class="card-body">
+                <form id="addrssform" onsubmit="return false">
+
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="rssurl" placeholder="Enter RSS URL" name="rssurl" required>
+                      </div>
+
+                      <div class="form-group">
+                        <select class="form-control" id="category" name="category">
+                          <option>Main Feeds</option>
+                          <option>Cities</option>
+                          <option>World</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <select class="form-control" id="sub_category" name="sub category">
+                            <option class="sub-op">Top Stories</option>
+                            <option class="sub-op">Most Recent Stories</option>
+                            <option class="sub-op">India</option>
+                            <option class="sub-op">World</option>
+                            <option class="sub-op">Business</option>
+                            <option class="sub-op">Sports</option>
+                            <option class="sub-op">Entertainment</option>
+                        </select>
+                      </div>
+
+                      <input type="submit" class="btn btn-primary" name="submit" value="Submit" id="rsssubmitbtn">
+
+
+                </form>
+              </div>
+         </div>
+      </div>
+  </div>
+</div>
+<script>
+  $( "#category" ).change(function() {
+    var str = "";
+    $( "#category option:selected" ).each(function() {
+      str += $( this ).text().trim();
+    });
+    $('.sub-op').remove();
+    var code = '';
+    if(str == 'Main Feeds'){
+      for(var i=0;i<option_obj.Main_Feeds.length;i++)
+      {
+        code += '<option class="sub-op">'+option_obj.Main_Feeds[i]+'</option>';
+      }
+      $('#sub_category').append(code);
+    }else if(str == 'Cities'){
+      for(var i=0;i<option_obj.Cities.length;i++)
+      {
+        code += '<option class="sub-op">'+option_obj.Cities[i]+'</option>';
+      }
+      $('#sub_category').append(code);
+    }else if(str == 'World'){
+      for(var i=0;i<option_obj.World.length;i++)
+      {
+        code += '<option class="sub-op">'+option_obj.World[i]+'</option>';
+      }
+      $('#sub_category').append(code);
+    }
+
+  });
+
+  $(document).on('click', '#rsssubmitbtn', function() {
+        var data = {};
+        data.rssurl = $('#rssurl').val();
+        data.category = $('#category').val();
+        data.subcategory = $('#sub_category').val();
+        console.log(data);
+        if(vali.ValidURL(data.rssurl)){
+
+          $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                url: '/admin/addrss',
+                success: function (response) {
+                  $('#rssurl').val('');
+                },
+                error: function (err) {
+                  notie.alert({type: 3, text: 'Something went wrong', time: 2})
+                }
+            });
+
+
+        }else{
+          notie.alert({type: 3, text: 'invalid', time: 2})
+        }
+
+   });
+
+
+
+</script>
+</body>
+</html>

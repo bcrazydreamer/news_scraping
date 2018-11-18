@@ -1,0 +1,34 @@
+<%- include('./Partials/Userheader.ejs') %>
+
+<div class="container">
+
+<% for(var i = 0 ; i < news_data.length ; i++) %>
+
+<% } %>
+
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+  initSideNavUser();
+  function initSideNavUser(){
+    var cities_list = option_obj.Cities;
+    var code;
+    $('#cities_feeds').html('');
+    for(var i = 0 ; i < cities_list.length ; i++){
+      code = '';
+      code += '<li><a href="/getNews/'+cities_list[i]+'">'+cities_list[i]+'</a></li>';
+      $('#cities_feeds').append(code);
+    }
+  }
+</script>
+
+</body>
+</html>

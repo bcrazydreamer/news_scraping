@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="top-nav">
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="">NEWS Scraper</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="http://timesofindia.com" target="_blank">Times Of India</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="https://github.com/bcrazydreamer/news_scraping" target="_blank"><i class="fab fa-github"></i></a>
+    </li>
+  </ul>
+</nav>
+
+
+<div class="side-nav-main-div">
+    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+        <div class="menu-list">
+            <ul id="menu-content" class="menu-content collapse out">
+              <li style="padding:10px;">
+                    <center><img src="/app_pics/bg/logo.png" alt="logo" style="width:60px;"></center>
+              </li>
+                <li>
+                  <center>
+                    <a href="#">
+                      <strong><%= user.name %></strong>
+                    </a>
+                  </center>
+                </li>
+
+
+                <li data-toggle="collapse" data-target="#setting" class="collapsed">
+                  <a href="#"><i class="fas fa-spider"></i> News Scrapping
+                    <i class="fas fa-sort-down"></i></a>
+                </li>
+                <ul class="sub-menu collapse" id="setting">
+                  <li><a href="/admin/addrss">Add New RSS</a></li>
+                  <li><a href="/admin/editrss">Edit RSS</a></li>
+                  <li><a href="/admin/refreshdb">Refresh DataBase</a></li>
+                </ul>
+
+
+                 <li>
+                  <a href="#">
+                  <i class="fa fa-user fa-lg"></i> Profile
+                  </a>
+                  </li>
+
+                  <li>
+                   <a href="/admin/changepassword">
+                   <i class="fas fa-unlock-alt"></i> Change Password
+                   </a>
+                   </li>
+
+                   <li>
+                    <a href="/admin/logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                    </li>
+            </ul>
+     </div>
+</div>
