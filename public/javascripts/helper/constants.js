@@ -56,7 +56,7 @@ function getImageOfWeather(type){
     }else if(type.indexOf('strom')>=0){
       return 'rain.png';
     }else if(type.indexOf('snow')>=0 || type.indexOf('cold')>=0){
-      return 'snow';
+      return 'snow.png';
     }else if(type.indexOf('cloud')>=0){
       if(type.indexOf('cloudy')>=0){
         return 'cloudy.png';
