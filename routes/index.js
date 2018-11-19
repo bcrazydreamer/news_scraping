@@ -10,7 +10,7 @@ var path                  = require('path');
 var fs                    = require('fs');
 
 router.get('/',function(req, res, next) {
-    res.render('index', { title: 'Home'});
+    res.render('index', { title: 'Home',news_data:''});
 });
 
 router.get('/getNews/:id',function(req, res, next) {
@@ -18,10 +18,10 @@ router.get('/getNews/:id',function(req, res, next) {
     data = data.replace(/_|-/g, " ");
     controllers.newsDataManipulation.readRssAndSave(data,(err,response)=>{
         if(err){
-          res.render('index', { title: 'Home',news_data:'',err:'Something went wrong'});
+          res.status(500).send('Something went wrong');
         }else{
           console.log(response);
-          res.render('index', { title: 'Home',news_data:response,err:''});
+          res.send(response);
         }
     });
 });

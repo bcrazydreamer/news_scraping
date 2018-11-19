@@ -39,3 +39,10 @@ CrazySpinner{
 .infinite-rotation {
 		-webkit-animation: rotation 2s infinite linear;
 }
+
+@media(min-width:767px){
+  .side-nav-exist{
+    width:calc(100% - 200px);
+    margin-left:200px !important;
+  }
+}

@@ -14,6 +14,9 @@
   color:white;
   padding-left:200px;
 }
+.feed-link{
+}
+
 .clock-top{
   font-family:Orbitron;
   color:white;
@@ -109,6 +112,10 @@ li{
   -ms-transition: all 1s ease;
   transition: all 1s ease;
 }
+body {
+  margin: 0px;
+  padding: 0px;
+}
 @media (max-width: 767px) {
   #top-nav{
     display:none;
@@ -139,7 +146,5 @@ li{
     display: block;
   }
 }
-body {
-  margin: 0px;
-  padding: 0px;
+
 }

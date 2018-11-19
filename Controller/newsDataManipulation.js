@@ -23,6 +23,7 @@ async function getUrlThatNotInDb(payload,html){
 }
 
 var readRssAndSave = async (payload,callback)=>{
+  console.log(payload,'------------------');
   MongoClient.connect(mongourl,{ useNewUrlParser: true },async function(err,db)
   {
     if(err){
@@ -49,7 +50,6 @@ var readRssAndSave = async (payload,callback)=>{
                 var saveResult = await db.db('news_scraper').collection('news_data').insert(feed.items[i]);
                 console.log('saved');
               }
-              console.log(payload);
               callback(null,feed.items)
             }
           }

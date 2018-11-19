@@ -34,7 +34,7 @@ const option_obj = {
                   'Thiruvananthapuram' ],
     'World'       : ['US','NRI','Chaina','South Asia']
 }
-
+const shareMessageIntro = 'This%20link%20is%20shared%20by%20*NEWS%20Scraper%20App*%20%0AWhich%20devloped%20by%20BCrazydreamer%0A';
 function UpDateTimeInContainer(doc){
   var timeLive = setInterval(function(){
     var time = new Date();
