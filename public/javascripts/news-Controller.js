@@ -57,14 +57,25 @@ $(document).on('click','.feed-link',(e)=>{
         url: route,
         success: function (response) {
           $('body').waitMe("hide");
-          $('.main-heading').text(heading);
-          for(var i = 0 ; i < response.length ; i++){
-            var codeHtml = createNewsDiv(response[i]);
-            $('.news-main-container').append(codeHtml);
+          $('.news-main-div').remove();
+          try{
+            if(!response.length){
+              notie.alert({type: 3, text: "No any NEWS on this category", time: 2});
+            }else{
+              $('.main-heading').text(heading);
+              for(var i = 0 ; i < response.length ; i++){
+                var codeHtml = createNewsDiv(response[i]);
+                $('.news-main-container').append(codeHtml);
+              }
+            }
+          } catch(err){
+            notie.alert({type: 3, text: "No any NEWS on this category", time: 2});
           }
+
         },
         error: function (err) {
           $('body').waitMe("hide");
+          $('.news-main-div').remove();
           notie.alert({type: 3, text: err.responseText, time: 2});
         }
     });
@@ -103,6 +114,7 @@ function fillWeatherInfoOnScreen(resp){
     $('.temprature-info').text(resp[0].current.skytext);
     $('.current-weather-icon').attr('src','/app_pics/weather/'+getImageOfWeather(resp[0].current.skytext));
     var code = '';
+    code += '<div class="row">';
     for(var i=0;i<resp[0].forecast.length;i++){
       if(!vali.isMobile()){
         if(i==2 || i==3){
@@ -122,6 +134,7 @@ function fillWeatherInfoOnScreen(resp){
       code += '</center>';
       code += '</div>';
     }
+    code +='</div>';
     code += '&nbsp;'
     $('#weather-forecast-div').append(code);
 }

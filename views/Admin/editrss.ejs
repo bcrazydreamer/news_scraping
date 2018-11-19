@@ -7,6 +7,13 @@
     display: none;
     margin-top:20px;
   }
+  body{
+    background: url(/app_pics/bg/header.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
 </style>
 <div class='container'>
   <div style="margin-top:30px;">
@@ -28,10 +35,13 @@
     </div>
 
   </div>
-  <center><img src="/app_pics/bg/loading3.gif" id="spinner-loading" /></center>
 </div>
+<script src="/Plugins/js/waitme.js"></script>
 <script>
-
+$('body').waitMe({
+  bg : 'rgba(12, 16, 33,0.6)',
+  color : '#fff'
+});
 getRSSlinks();
 
 function pushDataInDocumnet(data){
@@ -71,9 +81,8 @@ function getRSSlinks(){
         contentType: 'application/json',
         url: '/admin/getrsslinks',
         success: function (response) {
-          console.log(response.length);
+          $('body').waitMe("hide");
           if(response.length){
-            $('#spinner-loading').css('display','none');
             $('.rssmaindiv').css('display','block');
           }
           for(var i = 0 ; i < response.length ; i++){
@@ -88,23 +97,35 @@ function getRSSlinks(){
 }
 
 function deleteRss(id){
-  $('body').css('opacity','0.5');
-  var data = {_id:id};
-  $.ajax({
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        url: '/admin/removersslinks',
-        success: function (response) {
-          $('#rss'+id).remove();
-          $('body').css('opacity','1');
-          notie.alert({type: 1, text: 'Successfully deleted', time: 2})
-        },
-        error: function (err) {
-          $('body').css('opacity','1');
-          notie.alert({type: 3, text: 'Something went wrong', time: 2})
-        }
-    });
+  $.confirm({
+      title: 'Delete RSS Link',
+      content: "Are you sure you want to delete this link",
+      buttons: {
+          'Yes': {
+              btnClass: 'btn-success',
+              action: function () {
+                $('body').css('opacity','0.5');
+                var data = {_id:id};
+                  $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        url: '/admin/removersslinks',
+                        success: function (response) {
+                          $('#rss'+id).remove();
+                          $('body').css('opacity','1');
+                          notie.alert({type: 1, text: 'Successfully deleted', time: 2})
+                        },
+                        error: function (err) {
+                          $('body').css('opacity','1');
+                          notie.alert({type: 3, text: 'Something went wrong', time: 2})
+                        }
+                    });
+              }
+          },
+          'No': {btnClass: 'btn-danger',}
+      }
+  });
 
 }
 

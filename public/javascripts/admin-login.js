@@ -5,7 +5,7 @@ code += '    <center>Invalid username/password</center>';
 code += '</div>';
 code += '<form id="login-form" onsubmit="return false">';
 code += '<center><label><h4>Admin Login</h4></label></center>';
-code += '<div class="form-group"><label for="username">Email:</label>';
+code += '<div class="form-group"><label for="username">Username:</label>';
 code += '     <input type="email" class="form-control" id="username" placeholder="Enter username" name="username">';
 code += '</div>';
 code += '<div class="form-group"><label for="password">Password:</label>';
