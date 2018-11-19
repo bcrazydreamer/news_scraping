@@ -1,7 +1,7 @@
 function createSuperContent(title,content,date,url){
     date = date.substring(0,16);
     var imageHtml = '';
-    var title = '<a class="news-title">'+title+'</a><p class="news-publish-date">'+date+'</p>';
+    var title = '<a class="news-title" href="'+url+'" target="_blank">'+title+'</a><p class="news-publish-date">'+date+'</p>';
     if(content){
       try{
           var imgReg = content.match(/<img[^>]*?src="([^<]*?)"[^>]*?>/)[1] || '';
