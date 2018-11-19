@@ -9,7 +9,7 @@ var passport              = require('passport');
 var path                  = require('path');
 var fs                    = require('fs');
 
-router.get('/',function(req, res, next) {
+router.get('/',helper.auth.isAllreadyLoggedInAdmin,function(req, res, next) {
     res.render('Admin/index', { title: 'Login',error:req.flash('loginMessage')});
 });
 

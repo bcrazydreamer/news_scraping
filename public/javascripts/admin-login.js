@@ -23,9 +23,6 @@ code += '<div class="loading-div-login">';
 code += '   <center><img src="app_pics/bg/loading3.gif" /></center>';
 code +='</div>';
 
-
-openLoginPop();
-
 function openLoginPop(){
   $.confirm({
       title: '<div style="position:absolute"></div>',
