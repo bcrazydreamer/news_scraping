@@ -48,9 +48,9 @@ router.post('/api/weatherInfo',function(req, res, next) {
 
 });
 
-
-router.get('/test',function(req, res, next) {
-    res.render('test', { title: 'Edit Profile',UserData:req.session.passport.user,})
+router.get('/googlec2ef99614e6df793.html',function(req, res, next) {
+    res.render('seogoogle');
 });
+
 
 module.exports = router;
