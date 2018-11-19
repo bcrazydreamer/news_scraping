@@ -4,15 +4,24 @@ var mongoose                = require('mongoose');
 
 var insert = function (payload , callback) {
     payload.time = Date.now();
-    services.rssService.insert(payload, (err,rss) => {
-            if(err) {
-                callback(err);
-                return;
-            } else {
-				          callback(err,rss);
-            }
+    services.rssService.findOne({subcategory:payload.subcategory},{},{},(error,response)=>{
+      if(error){
+        callback(error);
+      }else{
+        if(response){
+          callback("This RSS is already exist");
+        }else{
+            services.rssService.insert(payload, (err,rss) => {
+                if(err) {
+                    callback(err);
+                    return;
+                } else {
+    				        callback(err,rss);
+                }
+            });
+          }
         }
-    );
+    });
 }
 
 var FindOne = function (criteria , projection , option, callback) {
@@ -50,7 +59,7 @@ var remove = function (criteria, callback) {
     if(criteria._id){
       criteria._id = mongoose.Types.ObjectId(criteria._id);
     }
-    services.rssService.remove(criteria,{},{}, (err,rss) => {
+    services.rssService.remove(criteria,(err,rss) => {
             if(err) {
                 callback(err);
                 return;

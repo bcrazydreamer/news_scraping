@@ -33,8 +33,8 @@ var find = function ( criteria, projections, options, callback){
   options.lean = true;
   models.newsDataModel.find( criteria, projections, options, callback );
 }
-var remove = function (criteria, projections, options, callback){
-  models.newsDataModel.remove(criteria, projections, options, callback);
+var remove = function (criteria, callback){
+  models.newsDataModel.remove(criteria, callback);
 }
 //------------------------------------------------------------------------------------------------
 var aggregation = function(query,callback)

@@ -1,31 +1,3 @@
-$( "#category" ).change(function() {
-  var str = "";
-  $( "#category option:selected" ).each(function() {
-    str += $( this ).text().trim();
-  });
-  $('.sub-op').remove();
-  var code = '';
-  if(str == 'Main Feeds'){
-    for(var i=0;i<option_obj.Main_Feeds.length;i++)
-    {
-      code += '<option class="sub-op">'+option_obj.Main_Feeds[i]+'</option>';
-    }
-    $('#sub_category').append(code);
-  }else if(str == 'Cities'){
-    for(var i=0;i<option_obj.Cities.length;i++)
-    {
-      code += '<option class="sub-op">'+option_obj.Cities[i]+'</option>';
-    }
-    $('#sub_category').append(code);
-  }else if(str == 'World'){
-    for(var i=0;i<option_obj.World.length;i++)
-    {
-      code += '<option class="sub-op">'+option_obj.World[i]+'</option>';
-    }
-    $('#sub_category').append(code);
-  }
-
-});
 $(document).on('click', '#rsssubmitbtn', function() {
       $('#rsssubmitbtn').attr('disabled','true');
       $('#rsssubmitbtn').html('<i class="fas fa-spinner infinite-rotation"></i>');
@@ -44,6 +16,7 @@ $(document).on('click', '#rsssubmitbtn', function() {
                 $('#rsssubmitbtn').html('Submit');
                 $('#rsssubmitbtn').removeAttr("disabled");
                 $('#rssurl').val('');
+                notie.alert({type: 1, text: 'Successfully Saved', time: 2})
               },
               error: function (err) {
                 $('#rsssubmitbtn').html('Submit');

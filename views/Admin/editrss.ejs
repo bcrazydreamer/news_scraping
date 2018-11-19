@@ -14,9 +14,51 @@
     -o-background-size: cover;
     background-size: cover;
   }
+  .card {
+      position: relative;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 1px solid rgba(0, 0, 0, .125);
+      border-radius: .65rem;
+  }
+  .card-body {
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+      padding: 1.25rem;
+  }
+  .list-group-item{
+    padding:12px;
+  }
+  .list-group-item.active{
+    background: #007BFF !important;
+  }
+  .badge-light {
+    color: rgb(33, 37, 41) !important;
+    background-color: rgb(248, 249, 250) !important;
+  }
+  .badge-warning {
+    color: rgb(33, 37, 41) !important;
+    background-color: rgb(255, 193, 7) !important;
+  }
+  .badge {
+    display: inline-block !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    vertical-align: baseline !important;
+    padding: 0.25em 0.4em !important;
+    border-radius: 0.25rem !important;
+}
 </style>
 <div class='container side-nav-exist'>
-  <div style="margin-top:30px;">
+  <div style="margin-top:10px;">
     <div class="col-12 rssmaindiv">
           <div class="card">
               <div class="card-body" id="Main_Feeds">
@@ -49,11 +91,13 @@ function pushDataInDocumnet(data){
   try{
   code +=' <ul class="list-group" style="margin-top:20px" id="rss'+data._id+'">';
   code +='  <li class="list-group-item active">';
-  code +='<span class="badge badge-light">'+data.category+'</span>&nbsp;';
-  code +='<span class="badge badge-warning">'+data.subcategory+'</span>';
-  code +='<a onclick="deleteRss(\''+data._id+'\')"><i class="fas fa-trash-alt" style="float:right"></i></a>';
+  code +='      <span class="badge badge-light" style="float:left;margin-right:10px">'+data.category+'</span>&nbsp';
+  code +='      <span class="badge badge-warning" style="float:left">'+data.subcategory+'</span>';
+  code +='      <a onclick="deleteRss(\''+data._id+'\')"><i class="fas fa-trash-alt" style="float:right;color:#fff"></i></a>';
   code +='  </li>';
-  code +='  <li class="list-group-item"><a href="'+data.rssurl+'" target="_blank">'+data.rssurl+'</a></li>';
+  code +='  <li class="list-group-item">';
+  code +='    <a href="'+data.rssurl+'" target="_blank" style="color: #007bff;font-size: 16px;">'+data.rssurl+'</a>';
+  code +='  </li>';
   code +='</ul>';
   } catch(err){
     console.log(err);

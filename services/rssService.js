@@ -33,8 +33,8 @@ var find = function ( criteria, projections, options, callback){
   options.lean = true;
   models.rssModel.find( criteria, projections, options, callback );
 }
-var remove = function (criteria, projections, options, callback){
-  models.rssModel.remove(criteria, projections, options, callback);
+var remove = function (criteria, callback){
+  models.rssModel.remove(criteria, callback);
 }
 //------------------------------------------------------------------------------------------------
 var aggregation = function(query,callback)
@@ -62,8 +62,8 @@ var asyncFind = function ( criteria, projections, options){
   return models.rssModel.find( criteria, projections, options );
 }
 
-var asyncRemove = function ( criteria, projections, options){
-  return models.rssModel.remove( criteria, projections, options );
+var asyncRemove = function ( criteria ){
+  return models.rssModel.remove( criteria );
 }
 
 var asyncAggregation = function(query){

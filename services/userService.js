@@ -35,8 +35,8 @@ var find = function ( criteria, projections, options, callback){
   options.lean = true;
   models.userModel.find( criteria, projections, options, callback );
 }
-var remove = function (criteria, projections, options, callback){
-  models.userModel.remove(criteria, projections, options, callback);
+var remove = function (criteria, callback){
+  models.userModel.remove(criteria, callback);
 }
 //------------------------------------------------------------------------------------------------
 var aggregation = function(query,callback)
@@ -64,8 +64,8 @@ var asyncFind = function ( criteria, projections, options){
   return models.userModel.find( criteria, projections, options );
 }
 
-var asyncRemove = function ( criteria, projections, options){
-  return models.userModel.remove( criteria, projections, options );
+var asyncRemove = function ( criteria ){
+  return models.userModel.remove( criteria);
 }
 
 var asyncAggregation = function(query){

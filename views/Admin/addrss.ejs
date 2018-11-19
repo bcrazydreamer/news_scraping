@@ -1,4 +1,24 @@
 <%- include('../Partials/Adminheader.ejs') %>
+<style>
+  .card {
+      position: relative;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 1px solid rgba(0, 0, 0, .125);
+      border-radius: .25rem;
+  }
+  .card-body {
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+      padding: 1.25rem;
+  }
+</style>
 <div class='container side-nav-exist'>
   <div style="margin-top:30px;">
     <div class="col-12">
@@ -42,8 +62,33 @@
   </div>
 </div>
 <script>
-
-
+  $( "#category" ).change(function() {
+    var str = "";
+    $( "#category option:selected" ).each(function() {
+      str += $( this ).text().trim();
+    });
+    $('.sub-op').remove();
+    var code = '';
+    if(str == 'Main Feeds'){
+      for(var i=0;i<option_obj.Main_Feeds.length;i++)
+      {
+        code += '<option class="sub-op">'+option_obj.Main_Feeds[i]+'</option>';
+      }
+      $('#sub_category').append(code);
+    }else if(str == 'Cities'){
+      for(var i=0;i<option_obj.Cities.length;i++)
+      {
+        code += '<option class="sub-op">'+option_obj.Cities[i]+'</option>';
+      }
+      $('#sub_category').append(code);
+    }else if(str == 'World'){
+      for(var i=0;i<option_obj.World.length;i++)
+      {
+        code += '<option class="sub-op">'+option_obj.World[i]+'</option>';
+      }
+      $('#sub_category').append(code);
+    }
+  });
 </script>
 </body>
 </html>
