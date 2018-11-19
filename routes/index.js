@@ -49,7 +49,7 @@ router.post('/api/weatherInfo',function(req, res, next) {
 });
 
 router.get('/googlec2ef99614e6df793.html',function(req, res, next) {
-    res.render('seogoogle');
+    res.render('Admin/seogoogle');
 });
 
 
