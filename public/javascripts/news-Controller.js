@@ -114,7 +114,6 @@ function fillWeatherInfoOnScreen(resp){
     $('.temprature-info').text(resp[0].current.temperature+'° c');
     $('.current-weather-icon').attr('src','/app_pics/weather/'+getImageOfWeather(resp[0].current.skytext));
     var code = '';
-    code += '<div class="row">';
     for(var i=0;i<resp[0].forecast.length;i++){
       if(!vali.isMobile()){
         if(i==2 || i==3){
@@ -134,7 +133,6 @@ function fillWeatherInfoOnScreen(resp){
       code += '</center>';
       code += '</div>';
     }
-    code +='</div>';
     code += '&nbsp;'
     $('#weather-forecast-div').append(code);
 }
