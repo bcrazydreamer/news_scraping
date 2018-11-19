@@ -17,14 +17,26 @@
 
 
     </div>
-    <div class="right-nav-util-main-div col-sm-4 col-md-4">
+    <div class="right-nav-util-main-div col-sm-4 col-md-4 unselectable">
 
       <div class="col-sm-12 allSidesSoft wether-news">
         <div class="col-sm-12">
-          <h4 class="weather-location">Haryana</h4>
+          <h4 class="weather-location">Loading...</h4>
           <hr style="margin:0"/>
         </div>
 
+        <div class="col-sm-6 col-xs-6" style="padding-top:20px">
+          <p class="wether-outside">Loading...</p>
+          <p class="temprature-info"></p>
+        </div>
+
+        <div class="col-sm-6 col-xs-6" style="padding-top:20px">
+          <img src="" class="current-weather-icon" />
+        </div>
+        &nbsp;
+        <div class="col-sm-12" style="padding:0;margin:0;overflow:scroll" id="weather-forecast-div">
+          <!--forecast here-->
+        </div>
       </div>
 
 
@@ -34,7 +46,8 @@
 <script src="/Plugins/js/waitme.js"></script>
 <script src="/javascripts/news-Controller.js"></script>
 <script>
-  // initDefaultPage();
+  // initweatherInfo();
+  initDefaultPage();
   initSideNavUser();
   function initSideNavUser(){
     var cities_list = option_obj.Cities;

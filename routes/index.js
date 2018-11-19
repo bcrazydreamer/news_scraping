@@ -8,6 +8,7 @@ const controllers         = require('../Controller')
 // var multer                = require('multer');
 var path                  = require('path');
 var fs                    = require('fs');
+var weather               = require('weather-js');
 
 router.get('/',function(req, res, next) {
     res.render('index', { title: 'Home',news_data:''});
@@ -18,12 +19,33 @@ router.get('/getNews/:id',function(req, res, next) {
     data = data.replace(/_|-/g, " ");
     controllers.newsDataManipulation.readRssAndSave(data,(err,response)=>{
         if(err){
+          console.log(err);
           res.status(500).send('Something went wrong');
         }else{
           console.log(response);
           res.send(response);
         }
     });
+});
+
+
+router.post('/api/weatherInfo',function(req, res, next) {
+  if(!req.body.location){
+    loc = 'Haryana';
+  }else{
+    loc = req.body.location;
+  }
+  weather.find({search: loc, degreeType: 'C'}, function(err, result) {
+    if(err){
+      console.log(err);
+      res.status(400).send(err);
+    }else{
+      res.status(200).send(result);
+    }
+});
+
+
+
 });
 
 

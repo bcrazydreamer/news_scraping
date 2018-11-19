@@ -67,16 +67,42 @@
 }
 
 
+
+
 .wether-news{
   border:1px solid rgb(242, 242, 242);
   border-radius:10px;
-  height:400px
 }
 .weather-location{
   font-family: 'Noto Sans SC', Helvetica, arial, sans-serif;
   color:rgb(96, 100, 105);
   padding-bottom:0;
 }
+.wether-outside{
+  font-family: 'Noto Sans SC', Helvetica, arial, sans-serif;
+  font-weight:600
+}
+.temprature-info{
+  font-family: 'Noto Sans SC', Helvetica, arial, sans-serif;
+  font-size: 2.8rem;
+  font-weight:500
+}
+.forecast-date-day{
+
+}
+.forecast-weather-icon{
+  height:40px;
+}
+.current-weather-icon{
+  height:80px;
+}
+.temprature-info-forecast-hight{
+  font-weight:600;
+}
+.temprature-info-forecast-low{
+
+}
+
 @media(max-width:768px){
   .news-main-container{
     width:auto !important;

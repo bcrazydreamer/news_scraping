@@ -85,10 +85,69 @@ function initDefaultPage(){
             var codeHtml = createNewsDiv(response[i]);
             $('.news-main-container').append(codeHtml);
           }
+          initweatherInfo();
         },
         error: function (err) {
           $('body').waitMe("hide");
+          initweatherInfo();
           notie.alert({type: 3, text: err.responseText, time: 2});
         }
     });
+}
+
+
+
+function fillWeatherInfoOnScreen(resp){
+    $('.weather-location').text(resp[0].current.observationpoint);
+    $('.wether-outside').text(resp[0].current.skytext);
+    $('.temprature-info').text(resp[0].current.skytext);
+    $('.current-weather-icon').attr('src','/app_pics/weather/'+getImageOfWeather(resp[0].current.skytext));
+    var code = '';
+    for(var i=0;i<resp[0].forecast.length;i++){
+      if(!vali.isMobile()){
+        if(i==2 || i==3){
+          code +='<div class="col-sm-1 col-xs-1"></div>';
+        }
+      }
+      code += '<div class="col-sm-2 col-xs-4" style="padding-top:20px;">';
+      code += '<center>';
+      if(i==0){
+        code += '  <p class="forecast-date-day">Today</p>';
+      }else{
+        code += '  <p class="forecast-date-day">'+resp[0].forecast[i].shortday+'</p>';
+      }
+      code += '  <img src="/app_pics/weather/'+getImageOfWeather(resp[0].forecast[i].skytextday)+'" class="forecast-weather-icon">';
+      code += '  <p class="temprature-info-forecast-hight">'+resp[0].forecast[i].high+'° c</p>';
+      code += '  <p class="temprature-info-forecast-low">'+resp[0].forecast[i].low+'° c</p>';
+      code += '</center>';
+      code += '</div>';
+    }
+    code += '&nbsp;'
+    $('#weather-forecast-div').append(code);
+}
+function initweatherInfo(){
+  var data = {};
+  $.get("http://ipinfo.io", function(response) {
+    if(response){
+      if(response.city){
+        data.location = response.city;
+      }else{
+        data.location = 'Delhi';
+      }
+    }else{
+      data.location = 'Delhi';
+    }
+    $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/api/weatherInfo',
+        success: function (response) {
+          fillWeatherInfoOnScreen(response);
+        },
+        error: function (err) {
+          notie.alert({type: 3, text: err.responseText, time: 2});
+        }
+    });
+  }, "jsonp");
 }

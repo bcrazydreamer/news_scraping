@@ -19,6 +19,15 @@ box-shadow: 0 0 10px rgba(0,0,0,0.6);
 -ms-user-select: none;
 user-select: none;
 }
+img/*crazydreamer*/
+{
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
 ::-webkit-scrollbar {
     width: 0px;
     background: transparent;

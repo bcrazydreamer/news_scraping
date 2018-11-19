@@ -42,3 +42,33 @@ function UpDateTimeInContainer(doc){
     $(doc).html(time);
   }, 1000);
 }
+
+function getImageOfWeather(type){
+    type = type.toLowerCase();
+    if(type.indexOf('sunny')>=0){
+      if(type.indexOf('partly sunny')>=0){
+        return 'cloudy.png';
+      }else{
+        return 'sunny.png';
+      }
+    }else if(type.indexOf('rain')>=0){
+      return 'rain.png';
+    }else if(type.indexOf('strom')>=0){
+      return 'rain.png';
+    }else if(type.indexOf('snow')>=0 || type.indexOf('cold')>=0){
+      return 'snow';
+    }else if(type.indexOf('cloud')>=0){
+      if(type.indexOf('cloudy')>=0){
+        return 'cloudy.png';
+      }else{
+        return 'cloud.png';
+      }
+    }else if(type.indexOf('smoke')>=0 || type.indexOf('smoke')>=0 || type.indexOf('wind')>=0){
+      return 'cloud.png';
+    }else if(type.indexOf('thunder')>=0){
+      return 'thunder.png';
+    }
+    else{
+      return 'sunny.png';
+    }
+}

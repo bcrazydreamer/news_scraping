@@ -7,12 +7,16 @@ mongourl = helper.AppConstant.mongoUrl;
 
 
 async function getUrlThatNotInDb(payload,html){
+
+  payload = payload.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ').trim();
   var reg = new RegExp('<a[^>]* href="([^"]*)" id[^>]*>'+payload+'</a>',"g");
   ans = html.match(reg);
   // console.log(ans,'debug');
+  var resultUrl;
   if(ans){
     try{
         resultUrl = ans[0].match(/<a[^>]*?href="([^<]*?)"[^>]*?>/)[1] || null;
+        console.log(resultUrl);
     }catch(err){
       resultUrl = null;
     }
@@ -23,7 +27,6 @@ async function getUrlThatNotInDb(payload,html){
 }
 
 var readRssAndSave = async (payload,callback)=>{
-  console.log(payload,'------------------');
   MongoClient.connect(mongourl,{ useNewUrlParser: true },async function(err,db)
   {
     if(err){
