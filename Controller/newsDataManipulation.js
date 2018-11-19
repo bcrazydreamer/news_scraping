@@ -16,7 +16,6 @@ async function getUrlThatNotInDb(payload,html){
   if(ans){
     try{
         resultUrl = ans[0].match(/<a[^>]*?href="([^<]*?)"[^>]*?>/)[1] || null;
-        console.log(resultUrl);
     }catch(err){
       resultUrl = null;
     }
@@ -39,9 +38,10 @@ var readRssAndSave = async (payload,callback)=>{
             try{
               //to check todays news
               var timeF = new Date();
-              var dateStringF = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
+              var dateStringF = timeF.toLocaleString('en-US', { day: 'numeric' }) + timeF.toLocaleString('en-US', { month: 'numeric' }) + timeF.toLocaleString('en-US', { year: 'numeric' });
               newsDataInDb = await db.db('news_scraper').collection('news_data').find({subcategory:payload,serverdate:dateStringF}).toArray();
             }catch(err){
+              console.log(err);
               newsDataInDb = [];
             }
             if(newsDataInDb.length){
