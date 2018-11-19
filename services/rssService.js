@@ -4,10 +4,9 @@ var mongoose                = require('mongoose');
 var mongourl         = helper.AppConstant.mongoUrl;
 mongoose.connect(mongourl);
 
-
 var insert = function ( criteria , callback) {
-  let rssInstanse = new models.rssModel(criteria);
-    rssInstanse.save( criteria, function(err, response ){
+  let newsInstance = new models.rssModel(criteria);
+    newsInstance.save( criteria, function(err, response ){
             if (err) {
                 callback(err);
                 return;
@@ -46,7 +45,7 @@ var aggregation = function(query,callback)
 
 
 var asyncUpdate = function (criteria, details,options){
-      return models.community.update(criteria, details,options);
+      return models.rssModel.update(criteria, details,options);
 }
 
 var asyncFindOne = function ( criteria, projections, options){
@@ -76,14 +75,14 @@ var asyncAggregation = function(query){
 module.exports = {
   'insert'                    : insert,
   'find'                      : find,
-	'FindOne'                   : findOne,
+	'findOne'                   : findOne,
   'update'                    : update,
   'remove'                    : remove,
   'aggregation'               : aggregation,
-  'asyncUpdate'									   : asyncUpdate,
-  'asyncFindOne'								   : asyncFindOne,
-  'asyncFindByIdAndRemove'				 : asyncFindByIdAndRemove,
-  'asyncFind'									     : asyncFind,
-  'asyncAggregation'               : asyncAggregation,
-  'asyncRemove'                    : asyncRemove
+  'asyncUpdate'								: asyncUpdate,
+  'asyncFindOne'							: asyncFindOne,
+  'asyncFindByIdAndRemove'		: asyncFindByIdAndRemove,
+  'asyncFind'									: asyncFind,
+  'asyncAggregation'          : asyncAggregation,
+  'asyncRemove'               : asyncRemove
 }

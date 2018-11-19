@@ -49,6 +49,7 @@ var readRssAndSave = async (payload,callback)=>{
               return;
             }else{
               var removeOldDateIfAny = await db.db('news_scraper').collection('news_data').remove({subcategory:payload});
+              // console.log(removeOldDateIfAny,'-----');
               let feed = await parser.parseURL(result.rssurl);
               var time = new Date();
               for(var i=0 ; i<feed.items.length ; i++)

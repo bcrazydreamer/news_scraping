@@ -1,5 +1,4 @@
 var helper       = require("../helper");
-var MongoClient  = require('mongodb').MongoClient;
 const models = require('../models');
 var mongoose                = require('mongoose');
 var mongourl         = helper.AppConstant.mongoUrl;
@@ -46,7 +45,7 @@ var aggregation = function(query,callback)
 
 
 var asyncUpdate = function (criteria, details,options){
-      return models.community.update(criteria, details,options);
+      return models.newsDataModel.update(criteria, details,options);
 }
 
 var asyncFindOne = function ( criteria, projections, options){
@@ -76,7 +75,7 @@ var asyncAggregation = function(query){
 module.exports = {
   'insert'                    : insert,
   'find'                      : find,
-	'FindOne'                   : findOne,
+	'findOne'                   : findOne,
   'update'                    : update,
   'remove'                    : remove,
   'aggregation'               : aggregation,

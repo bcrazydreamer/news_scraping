@@ -47,7 +47,7 @@ var aggregation = function(query,callback)
 
 
 var asyncUpdate = function (criteria, details,options){
-      return models.community.update(criteria, details,options);
+      return models.newsDataModel.update(criteria, details,options);
 }
 
 var asyncFindOne = function ( criteria, projections, options){
