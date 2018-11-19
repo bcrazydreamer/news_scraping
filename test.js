@@ -1,11 +1,8 @@
-var weather = require('weather-js');
-
-// Options:
-// search:     location name or zipcode
-// degreeType: F or C
-
-weather.find({search: 'Haryana', degreeType: 'C'}, function(err, result) {
-  if(err) console.log(err);
-
-  console.log(result[0]);
-});
+// var service = require('./services');
+//
+//
+// service.testser.createUser({username:'Bharat',password:'1'},(err,response)=>{
+//
+//   console.log(err,response);
+//
+// });

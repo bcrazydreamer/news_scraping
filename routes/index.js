@@ -22,7 +22,7 @@ router.get('/getNews/:id',function(req, res, next) {
           console.log(err);
           res.status(500).send('Something went wrong');
         }else{
-          console.log(response);
+          // console.log(response);
           res.send(response);
         }
     });

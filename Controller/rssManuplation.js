@@ -50,7 +50,7 @@ var remove = function (criteria, callback) {
     if(criteria._id){
       criteria._id = mongoose.Types.ObjectId(criteria._id);
     }
-    services.rssService.remove(criteria, (err,rss) => {
+    services.rssService.remove(criteria,{},{}, (err,rss) => {
             if(err) {
                 callback(err);
                 return;

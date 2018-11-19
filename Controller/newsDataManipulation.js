@@ -33,10 +33,14 @@ var readRssAndSave = async (payload,callback)=>{
       callback(err,db);
     } else {
           var newsDataInDb=[];
+          // result give rss from db
           let result = await db.db('news_scraper').collection('rss_links').findOne({subcategory:payload});
           if(result){
             try{
-              newsDataInDb = await db.db('news_scraper').collection('news_data').find({subcategory:payload}).toArray();
+              //to check todays news
+              var timeF = new Date();
+              var dateStringF = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
+              newsDataInDb = await db.db('news_scraper').collection('news_data').find({subcategory:payload,serverdate:dateStringF}).toArray();
             }catch(err){
               newsDataInDb = [];
             }
@@ -44,9 +48,13 @@ var readRssAndSave = async (payload,callback)=>{
               callback(null,newsDataInDb)
               return;
             }else{
+              var removeOldDateIfAny = await db.db('news_scraper').collection('news_data').remove({subcategory:payload});
               let feed = await parser.parseURL(result.rssurl);
+              var time = new Date();
               for(var i=0 ; i<feed.items.length ; i++)
               {
+                var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
+                feed.items[i].serverdate = dateString;
                 feed.items[i].category = helper.feedUrls.getCategory[payload];
                 feed.items[i].subcategory = payload;
                 feed.items[i].scrapedat = Date.now();
@@ -67,9 +75,11 @@ var readRssAndSave = async (payload,callback)=>{
                   }
                   dataUrl.then(async (url)=>{
                     let feed = await parser.parseURL(url);
-
+                    var time = new Date();
                     for(var i=0 ; i<feed.items.length ; i++)
                     {
+                      var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
+                      feed.items[i].serverdate = dateString;
                       feed.items[i].category = helper.feedUrls.getCategory[payload];
                       feed.items[i].subcategory = payload;
                       feed.items[i].scrapedat = Date.now();

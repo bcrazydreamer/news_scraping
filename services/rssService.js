@@ -1,129 +1,90 @@
 var helper       = require("../helper");
 var MongoClient  = require('mongodb').MongoClient;
-mongourl         = helper.AppConstant.mongoUrl;
+const models = require('../models');
+var mongoose                = require('mongoose');
+var mongourl         = helper.AppConstant.mongoUrl;
+mongoose.connect(mongourl);
 
-
-
-var find = function ( criteria, projections, options, callback) {
-   	MongoClient.connect(mongourl,{ useNewUrlParser: true },function(err,db)
-  	{
-  		if(err){
-  			callback(err,db);
-  		} else {
-        // db.collection('news_scraper').find({},{"sort": [["area",-1]]}).limit(20).toArray(function(err, resul)
-  			db.db('news_scraper').collection('rss_links').find(criteria,projections).toArray(function(err,result)
-  			{
-  				if(err){
-  					callback(err,result);
-  				} else {
-  					callback(err,result);
-  				}
-  			})
-  		}
-  	})
-}
-
-
-var FindOne = function ( criteria, projections, options, callback) {
-   	MongoClient.connect(mongourl,{ useNewUrlParser: true },function(err,db)
-  	{
-  		if(err){
-  			callback(err,db);
-  		} else {
-        options.lean = true;
-  			db.db('news_scraper').collection('rss_links').findOne(criteria,function(err,result)
-  			{
-  				if(err){
-  					callback(err,result);
-  				} else {
-  					callback(err,result);
-  				}
-  			})
-  		}
-  	})
-}
 
 var insert = function ( criteria , callback) {
-
-  MongoClient.connect(mongourl,{ useNewUrlParser: true },async function(err,db)
-	{
-		if(err){
-			callback(err,db);
-		} else {
-			db.db('news_scraper').collection('rss_links').findOne({rssurl:criteria.rssurl},function(err,result1)
-			{
-				if(err){
-					callback(err,result1);
-				} else {
-          if(!result1){
-            //---------------------------------------------
-            db.db('news_scraper').collection('rss_links').save(criteria,function(err,result)
-            {
-              if(err){
-                callback(err,result);
+  let rssInstanse = new models.rssModel(criteria);
+    rssInstanse.save( criteria, function(err, response ){
+            if (err) {
+                callback(err);
                 return;
-              } else {
-                callback(err,result);
-                return;
-              }
-            })
-            //---------------------------------------------
-          }else{
-              callback('RSS already exit',result1);
-          }
-
-				}
-			})
-		}
-	})
-
+            }
+            callback(null, response);
+    })
 }
 
-var update = function ( criteria, projection, option, callback) {
- 	MongoClient.connect(mongourl,{ useNewUrlParser: true },function(err,db)
-	{
-		if(err){
-			callback(err,db);
-		} else {
-			db.db('news_scraper').collection('rss_links').update(criteria,projection,option,function(err,result)
-			{
-				if(err){
-					callback(err,result);
-				} else {
-					callback(err,result);
-				}
-			})
-		}
-	})
+//--------------------------------------------------------------------------------------------------------
+var update = function (criteria, details,options, callback){
+      models.rssModel.update(criteria, details,options,callback);
+}
+//--------------------------------------------------------------------------------------------------------
+var findOne = function ( criteria, projections, options, callback){
+  options.lean = true;
+  models.rssModel.findOne( criteria, projections, options, callback )
+}
+//--------------------------------------------------------------------------------------------------------
+var findByIdAndRemove = function (criteria, callback){
+  models.rssModel.findByIdAndRemove(criteria, callback);
+}
+//--------------------------------------------------------------------------------------------------------
+var find = function ( criteria, projections, options, callback){
+  options.lean = true;
+  models.rssModel.find( criteria, projections, options, callback );
+}
+var remove = function (criteria, projections, options, callback){
+  models.rssModel.remove(criteria, projections, options, callback);
+}
+//------------------------------------------------------------------------------------------------
+var aggregation = function(query,callback)
+{
+    models.rssModel.aggregate([query],callback);
 }
 
 
-var remove = function ( criteria, callback) {
-   	MongoClient.connect(mongourl,{ useNewUrlParser: true },function(err,db)
-  	{
-  		if(err){
-  			callback(err,db);
-  		} else {
-  			db.db('news_scraper').collection('rss_links').remove(criteria,function(err,result)
-  			{
-  				if(err){
-  					callback(err,result);
-  				} else {
-  					callback(err,result);
-  				}
-  			})
-  		}
-  	})
+
+var asyncUpdate = function (criteria, details,options){
+      return models.community.update(criteria, details,options);
 }
 
+var asyncFindOne = function ( criteria, projections, options){
+  options.lean = true;
+  return models.rssModel.findOne( criteria, projections, options )
+}
 
+var asyncFindByIdAndRemove = function (criteria){
+  return models.rssModel.findByIdAndRemove(criteria);
+}
+
+var asyncFind = function ( criteria, projections, options){
+  options.lean = true;
+  return models.rssModel.find( criteria, projections, options );
+}
+
+var asyncRemove = function ( criteria, projections, options){
+  return models.rssModel.remove( criteria, projections, options );
+}
+
+var asyncAggregation = function(query){
+    return models.rssModel.aggregate([query]);
+}
 
 
 
 module.exports = {
   'insert'                    : insert,
   'find'                      : find,
-	'FindOne'                   : FindOne,
+	'FindOne'                   : findOne,
   'update'                    : update,
-  'remove'                    : remove
+  'remove'                    : remove,
+  'aggregation'               : aggregation,
+  'asyncUpdate'									   : asyncUpdate,
+  'asyncFindOne'								   : asyncFindOne,
+  'asyncFindByIdAndRemove'				 : asyncFindByIdAndRemove,
+  'asyncFind'									     : asyncFind,
+  'asyncAggregation'               : asyncAggregation,
+  'asyncRemove'                    : asyncRemove
 }

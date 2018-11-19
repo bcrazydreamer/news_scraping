@@ -111,7 +111,7 @@ function initDefaultPage(){
 function fillWeatherInfoOnScreen(resp){
     $('.weather-location').text(resp[0].current.observationpoint);
     $('.wether-outside').text(resp[0].current.skytext);
-    $('.temprature-info').text(resp[0].current.skytext);
+    $('.temprature-info').text(resp[0].current.temperature+'° c');
     $('.current-weather-icon').attr('src','/app_pics/weather/'+getImageOfWeather(resp[0].current.skytext));
     var code = '';
     code += '<div class="row">';

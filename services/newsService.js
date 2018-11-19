@@ -5,10 +5,9 @@ var mongoose                = require('mongoose');
 var mongourl         = helper.AppConstant.mongoUrl;
 mongoose.connect(mongourl);
 
-
 var insert = function ( criteria , callback) {
-  let userInstance = new models.userModel(criteria);
-    userInstance.save( criteria, function(err, response ){
+  let newsInstance = new models.newsDataModel(criteria);
+    newsInstance.save( criteria, function(err, response ){
             if (err) {
                 callback(err);
                 return;
@@ -19,29 +18,29 @@ var insert = function ( criteria , callback) {
 
 //--------------------------------------------------------------------------------------------------------
 var update = function (criteria, details,options, callback){
-      models.userModel.update(criteria, details,options,callback);
+      models.newsDataModel.update(criteria, details,options,callback);
 }
 //--------------------------------------------------------------------------------------------------------
 var findOne = function ( criteria, projections, options, callback){
   options.lean = true;
-  models.userModel.findOne( criteria, projections, options, callback )
+  models.newsDataModel.findOne( criteria, projections, options, callback )
 }
 //--------------------------------------------------------------------------------------------------------
 var findByIdAndRemove = function (criteria, callback){
-  models.userModel.findByIdAndRemove(criteria, callback);
+  models.newsDataModel.findByIdAndRemove(criteria, callback);
 }
 //--------------------------------------------------------------------------------------------------------
 var find = function ( criteria, projections, options, callback){
   options.lean = true;
-  models.userModel.find( criteria, projections, options, callback );
+  models.newsDataModel.find( criteria, projections, options, callback );
 }
 var remove = function (criteria, projections, options, callback){
-  models.userModel.remove(criteria, projections, options, callback);
+  models.newsDataModel.remove(criteria, projections, options, callback);
 }
 //------------------------------------------------------------------------------------------------
 var aggregation = function(query,callback)
 {
-    models.userModel.aggregate([query],callback);
+    models.newsDataModel.aggregate([query],callback);
 }
 
 
@@ -52,24 +51,24 @@ var asyncUpdate = function (criteria, details,options){
 
 var asyncFindOne = function ( criteria, projections, options){
   options.lean = true;
-  return models.userModel.findOne( criteria, projections, options )
+  return models.newsDataModel.findOne( criteria, projections, options )
 }
 
 var asyncFindByIdAndRemove = function (criteria){
-  return models.userModel.findByIdAndRemove(criteria);
+  return models.newsDataModel.findByIdAndRemove(criteria);
 }
 
 var asyncFind = function ( criteria, projections, options){
   options.lean = true;
-  return models.userModel.find( criteria, projections, options );
+  return models.newsDataModel.find( criteria, projections, options );
 }
 
 var asyncRemove = function ( criteria, projections, options){
-  return models.userModel.remove( criteria, projections, options );
+  return models.newsDataModel.remove( criteria, projections, options );
 }
 
 var asyncAggregation = function(query){
-    return models.userModel.aggregate([query]);
+    return models.newsDataModel.aggregate([query]);
 }
 
 
@@ -77,7 +76,7 @@ var asyncAggregation = function(query){
 module.exports = {
   'insert'                    : insert,
   'find'                      : find,
-	'findOne'                   : findOne,
+	'FindOne'                   : findOne,
   'update'                    : update,
   'remove'                    : remove,
   'aggregation'               : aggregation,
