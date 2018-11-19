@@ -1,5 +1,4 @@
 var helper       = require("../helper");
-var MongoClient  = require('mongodb').MongoClient;
 const models = require('../models');
 var mongoose                = require('mongoose');
 var mongourl         = helper.AppConstant.mongoUrl;
