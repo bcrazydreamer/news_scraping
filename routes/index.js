@@ -48,9 +48,21 @@ router.post('/api/weatherInfo',function(req, res, next) {
 
 });
 
+router.get('/logout',function(req,res){
+  req.logout();
+  res.redirect('/');
+});
+
 router.get('/googlec2ef99614e6df793.html',function(req, res, next) {
     res.render('Admin/seogoogle');
 });
 
+router.get('/robots.txt',function(req, res, next) {
+    res.sendFile('SEO/robot.txt',{ root: './public' });
+});
+
+router.get('/robot.txt',function(req, res, next) {
+    res.sendFile('SEO/robot.txt',{ root: './public' });
+});
 
 module.exports = router;
