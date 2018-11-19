@@ -120,18 +120,19 @@ function fillWeatherInfoOnScreen(resp){
           code +='<div class="col-sm-1 col-xs-1"></div>';
         }
       }
-      code += '<div class="col-sm-2 col-xs-4" style="padding-top:20px;">';
-      code += '<center>';
+      code += `<div class="col-sm-2 col-xs-4" style="padding-top:20px;">
+               <center>`;
       if(i==0){
-        code += '  <p class="forecast-date-day">Today</p>';
+        code += `  <p class="forecast-date-day">Today</p>`;
       }else{
-        code += '  <p class="forecast-date-day">'+resp[0].forecast[i].shortday+'</p>';
+        code += `  <p class="forecast-date-day">${resp[0].forecast[i].shortday}</p>`;
       }
-      code += '  <img src="/app_pics/weather/'+getImageOfWeather(resp[0].forecast[i].skytextday)+'" class="forecast-weather-icon">';
-      code += '  <p class="temprature-info-forecast-hight">'+resp[0].forecast[i].high+'° c</p>';
-      code += '  <p class="temprature-info-forecast-low">'+resp[0].forecast[i].low+'° c</p>';
-      code += '</center>';
-      code += '</div>';
+      code +=`
+        <img src="/app_pics/weather/${getImageOfWeather(resp[0].forecast[i].skytextday)}" class="forecast-weather-icon">
+        <p class="temprature-info-forecast-hight">${resp[0].forecast[i].high}° c</p>
+        <p class="temprature-info-forecast-low">${resp[0].forecast[i].low}° c</p>
+        </center>
+      </div>`;
     }
     code += '&nbsp;'
     $('#weather-forecast-div').append(code);
