@@ -9,14 +9,13 @@
 
 <div class="container side-nav-exist">
   <p class="main-heading">
-      Top Stories
+      Saved News
   </p>
   <hr />
 </div>
 <div class="side-nav-exist">
     <div class="col-sm-8 col-md-8 col-xs-12 news-main-container">
-
-
+      <!--Space For NEWS-->
     </div>
     <div class="right-nav-util-main-div col-sm-4 col-md-4 col-xs-12 unselectable">
 
@@ -45,10 +44,11 @@
 </div>
 
 <script src="/Plugins/js/waitme.js"></script>
-<script src="/javascripts/news-Controller.js"></script>
+<script src="/javascripts/savedNews.js"></script>
 <script src="/javascripts/user-controller.js"></script>
 <script>
-  initDefaultPage();
+  initweatherInfo();
+  initSavedNews();
   initSideNavUser();
   function initSideNavUser(){
     var cities_list = option_obj.Cities;

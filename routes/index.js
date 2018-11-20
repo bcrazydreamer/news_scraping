@@ -10,8 +10,74 @@ var path                  = require('path');
 var fs                    = require('fs');
 var weather               = require('weather-js');
 
-router.get('/',function(req, res, next) {
-    res.render('index', { title: 'Home',news_data:''});
+router.get('/',helper.auth.isAllreadyLoggedInUser,function(req, res, next) {
+    res.render('index', { title: 'Home',news_data:'',user : ''});
+});
+
+router.post('/login',passport.authenticate('local-login',{failureRedirect:'/'}),function (req, res) {
+  if(req.session.passport.user.role==0){
+    res.send({role:req.session.passport.user.role})
+  }else if(req.session.passport.user.role==1) {
+    res.send({role:req.session.passport.user.role})
+  } else {
+    req.logout();
+    res.send({role:null})
+  }
+});
+
+router.post('/signup',function(req, res, next) {
+  var data = {};
+  data.username = req.username;
+  data.password = req.password;
+  data.fullname = req.fullname;
+  controllers.userController.insert(req.body,(err,response)=>{
+    if(err){
+        res.status(400).send(err);
+    }else{
+        res.send({status:true});
+    }
+  });
+});
+
+
+
+
+router.get('/user',helper.auth.isLoggedInUser,function(req, res, next) {
+    res.render('index', { title: 'Home',news_data:'' , user:req.session.passport.user});
+});
+
+
+router.get('/getsavednews',helper.auth.isLoggedInUser,function(req, res, next) {
+    res.redirect('/saved?mode=user&username='+req.session.passport.user.username+'&timestamp'+Date.now()+'&status=loggedin');
+});
+
+router.get('/saved',helper.auth.isLoggedInUser,function(req, res, next) {
+  res.render('savednews', { title: 'Saved News',news_data:'' , user:req.session.passport.user});
+});
+
+router.get('/getsavednewsRequest',helper.auth.isLoggedInUser,function(req, res, next) {
+  controllers.userController.getSavedNews({savedby:req.session.passport.user._id},{},{},(err,response)=>{
+    if(err){
+        res.status(400).send(err);
+    }else{
+        res.send(response);
+    }
+  });
+});
+
+
+router.post('/saved',helper.auth.isLoggedInUser,function(req, res, next) {
+    var data = {};
+    data.newsId = req.body.newsId;
+    data.user = req.session.passport.user._id;
+    controllers.userController.saveNewsInUser(data,(err,response)=>{
+        if(err){
+          console.log(err);
+          res.status(500).send('Something went wrong');
+        }else{
+          res.send(response);
+        }
+    });
 });
 
 router.get('/getNews/:id',function(req, res, next) {
@@ -22,7 +88,6 @@ router.get('/getNews/:id',function(req, res, next) {
           console.log(err);
           res.status(500).send('Something went wrong');
         }else{
-          // console.log(response);
           res.send(response);
         }
     });
@@ -43,8 +108,6 @@ router.post('/api/weatherInfo',function(req, res, next) {
       res.status(200).send(result);
     }
 });
-
-
 
 });
 

@@ -1,5 +1,13 @@
 var mongoose = require('mongoose');
-var newsModel = mongoose.Schema({
+var savedNewsModel = mongoose.Schema({
+    savedby : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'user'
+    },
+    savedOn : {
+      type : Date,
+      default :Date.now
+    },
     title : {
       type:String,
       trim:true
@@ -38,8 +46,9 @@ var newsModel = mongoose.Schema({
     },
     serverdate : {
       type:Number,
-      default : 0
+      default : -1
     },
+
     subcategory : {
       type:String,
       trim:true,
@@ -52,4 +61,4 @@ var newsModel = mongoose.Schema({
     },
 
   });
-module.exports= mongoose.model("news_data",newsModel);
+module.exports= mongoose.model("saved_news_data",savedNewsModel);

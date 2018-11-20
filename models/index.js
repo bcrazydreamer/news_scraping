@@ -1,5 +1,6 @@
 module.exports = {
     'rssModel'        : require('./rssModel'),
     'newsDataModel'   : require('./newsDataModel'),
-    'userModel'       : require('./userModel')
+    'userModel'       : require('./userModel'),
+    'savedNewsModel'  : require('./savedNewsModel'),
 }

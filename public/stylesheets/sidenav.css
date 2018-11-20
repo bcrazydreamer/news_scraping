@@ -10,12 +10,28 @@ body {
   margin: 0px;
   padding: 0px;
 }
+
+.dark-background-for-password{
+  background:#0C1021;
+}
+
 #top-nav{
   border-radius:0;
   height:56px !important;
   background-color: #0C1021 !important;
   color:white;
   padding-left:200px;
+}
+.user-db-header{
+  height: 30px;
+}
+.login-signup-btn{
+  padding:3px 5px 3px 5px;
+  font-family: "Times New Roman", Times, serif;
+  background:transparent;
+  border-color:white;
+  color:#ffffff;
+  margin:0;
 }
 .feed-link{
 }

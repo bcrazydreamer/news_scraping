@@ -13,6 +13,14 @@ var userModel = mongoose.Schema({
     createDate : {
       type :Date,
       default :Date.now
+    },
+    role : {
+      type :String,
+      default :'1'
+    },
+    userDp : {
+      type : String,
+      default : 'defaultuser.png'
     }
   });
 module.exports= mongoose.model("user",userModel);

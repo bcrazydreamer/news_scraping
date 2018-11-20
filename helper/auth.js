@@ -9,7 +9,13 @@ function isLoggedIn(req,res,next)
 function isAllreadyLoggedInAdmin(req,res,next)
 {
   if(req.isAuthenticated()) {
-        res.redirect('/admin/dashboard');
+        if(req.session.passport.user.role==0){
+          res.redirect('/admin/dashboard?mode=admin&username='+req.session.passport.user.username+'&timestamp'+Date.now()+'&status=loggedin');
+          return;
+        } else if(req.session.passport.user.role==0){
+          res.redirect('/');
+          return;
+        }
         return;
   }
   return next();
@@ -18,17 +24,26 @@ function isAllreadyLoggedInAdmin(req,res,next)
 function isLoggedInUser(req,res,next)
 {
   if(req.isAuthenticated()) {
-        return next();
+        if(req.session.passport.user.role==0){
+          res.redirect('/admin');
+        } else {
+          return next();
+        }
   }
-  res.redirect('/admin');
+  res.redirect('/');
 }
 
 
 function isAllreadyLoggedInUser(req,res,next)
 {
   if(req.isAuthenticated()) {
-        res.redirect('/');
-        return next();
+        if(req.session.passport.user.role==0){
+          res.redirect('/admin');
+          return;
+        } else {
+          res.redirect('/user?mode=user&username='+req.session.passport.user.username+'&timestamp'+Date.now()+'&status=loggedin');
+          return;
+        }
   }
   return next();
 }

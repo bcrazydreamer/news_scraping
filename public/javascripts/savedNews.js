@@ -35,8 +35,8 @@ function createNewsDiv(news){
     fbShareLink = 'https://facebook.com/sharer/sharer.php?u='+news.link;
     code += '            <li><a href="'+fbShareLink+'" class="share-icon" target="_blank"><i class="fab fa-facebook-f"></i> facebook</a></li>';
     code += '          </ul>';
-    code += '  <a style="margin-left:10px" class"bookmark-main-page" onclick="saveNewsInUser(\''+news._id+'\')">';
-    code += '    <i class="far fa-bookmark share-icon-pop-btn"></i>';
+    code += '  <a style="margin-left:10px" class"bookmark-main-page" onclick="removeNewsInUser(\''+news._id+'\')">';
+    code += '    <i class="fas fa-bookmark share-icon-pop-btn"></i>';
     code += '  </a>';
     code += ' </div>';
     code += '</div>';
@@ -84,7 +84,7 @@ $(document).on('click','.feed-link',(e)=>{
     });
 });
 
-function initDefaultPage(){
+function initSavedNews(){
   $('body').waitMe({
     bg : 'rgba(12, 16, 33,0.6)',
     color : '#fff'
@@ -92,18 +92,16 @@ function initDefaultPage(){
   $.ajax({
         type: 'GET',
         contentType: 'application/json',
-        url: '/getNews/Top_Stories',
+        url: '/getsavednewsRequest',
         success: function (response) {
           $('body').waitMe("hide");
           for(var i = 0 ; i < response.length ; i++){
             var codeHtml = createNewsDiv(response[i]);
             $('.news-main-container').append(codeHtml);
           }
-          initweatherInfo();
         },
         error: function (err) {
           $('body').waitMe("hide");
-          initweatherInfo();
           notie.alert({type: 3, text: err.responseText, time: 2});
         }
     });

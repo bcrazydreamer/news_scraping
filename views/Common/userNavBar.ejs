@@ -7,9 +7,14 @@
       <li><a class="nav-link" href="http://timesofindia.com" target="_blank">Times Of India</a></li>
       <li><a class="nav-link" href="https://github.com/bcrazydreamer/news_scraping" target="_blank"><i class="fab fa-github"></i></a></li>
     </ul>
-    <div class="navbar-header" style="float:right">
-      <a class="navbar-brand" href="#"></a>
-    </div>
+    <ul class="nav navbar-nav" style="float:right">
+        <% if(user.username) { %>
+          <li><a class="nav-link" href="#"><img src="/app_pics/bg/defaultuser.png" class="user-db-header" /></a></li>
+        <% } else { %>
+          <li><a class="nav-link" href="#"><p class="btn btn-default login-signup-btn" id="sign-in-btn">Sign In</p></a></li>
+          <li><a class="nav-link" href="#"><p class="btn btn-default login-signup-btn" id="sign-up-btn">Sign Up</p></a></li>
+        <% } %>
+    </ul>
 
   </div>
 </nav>
@@ -37,6 +42,10 @@
                       <strong class="clock-top">News</strong>
                     </a>
                   </center>
+                </li>
+
+                <li>
+                  <a href="/"><i class="fas fa-home"></i> Home</a>
                 </li>
 
                 <li data-toggle="collapse" data-target="#main_feeds" class="collapsed">
@@ -68,11 +77,31 @@
                 <ul class="sub-menu collapse" id="cities_feeds">
 
                 </ul>
-
+                <% if(!user.username) { %>
+                    <li>
+                        <a href="#" class="save-for-latter-css" id="sign-in-mobile">
+                          <i class="fas fa-user"></i> Login
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="save-for-latter-css" id="sign-up-mobile">
+                          <i class="fas fa-user-plus"></i> Sign Up
+                        </a>
+                    </li>
+                <% } %>
                 <li>
-                  <a href="/admin">
-                    <i class="fas fa-sign-in-alt"></i> Admin Login
-                  </a>
+                  <% if(user.username) { %>
+                    <a href="#" class="save-for-latter-css" id="save-for-later">
+                      <i class="far fa-bookmark"></i> Saved News
+                    </a>
+                  <% } %>
+                </li>
+                <li>
+                  <% if(user.username) { %>
+                    <a href="/logout" id="logoutbtnpresent">
+                      <i class="fas fa-sign-in-alt"></i> Logout
+                    </a>
+                  <% } %>
                 </li>
 
 

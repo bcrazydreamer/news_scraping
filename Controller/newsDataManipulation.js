@@ -39,16 +39,15 @@ var readRssAndSave = async (payload,callback)=>{
               //to check todays news
               var timeF = new Date();
               var dateStringF = timeF.toLocaleString('en-US', { day: 'numeric' }) + timeF.toLocaleString('en-US', { month: 'numeric' }) + timeF.toLocaleString('en-US', { year: 'numeric' });
-              newsDataInDb = await db.db('news_scraper').collection('news_data').find({subcategory:payload,serverdate:dateStringF}).toArray();
+              newsDataInDb = await db.db('news_scraper').collection('news_datas').find({subcategory:payload,serverdate:dateStringF}).toArray();
             }catch(err){
-              console.log(err);
               newsDataInDb = [];
             }
             if(newsDataInDb.length){
               callback(null,newsDataInDb)
               return;
             }else{
-              var removeOldDateIfAny = await db.db('news_scraper').collection('news_data').remove({subcategory:payload});
+              var removeOldDateIfAny = await db.db('news_scraper').collection('news_datas').remove({subcategory:payload});
               // console.log(removeOldDateIfAny,'-----');
               let feed = await parser.parseURL(result.rssurl);
               var time = new Date();
@@ -59,7 +58,7 @@ var readRssAndSave = async (payload,callback)=>{
                 feed.items[i].category = helper.feedUrls.getCategory[payload];
                 feed.items[i].subcategory = payload;
                 feed.items[i].scrapedat = Date.now();
-                var saveResult = await db.db('news_scraper').collection('news_data').insert(feed.items[i]);
+                var saveResult = await db.db('news_scraper').collection('news_datas').insert(feed.items[i]);
                 console.log('saved');
               }
               callback(null,feed.items)
@@ -84,7 +83,7 @@ var readRssAndSave = async (payload,callback)=>{
                       feed.items[i].category = helper.feedUrls.getCategory[payload];
                       feed.items[i].subcategory = payload;
                       feed.items[i].scrapedat = Date.now();
-                      var saveResult = await db.db('news_scraper').collection('news_data').insertMany([feed.items[i]]);
+                      var saveResult = await db.db('news_scraper').collection('news_datas').insertMany([feed.items[i]]);
                     }
                     callback(null,feed.items)
                     return;
