@@ -15,7 +15,7 @@ var userModel = mongoose.Schema({
       default :Date.now
     },
     role : {
-      type :String,
+      type :Number,
       default :'1'
     },
     userDp : {
