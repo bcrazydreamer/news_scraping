@@ -1,15 +1,19 @@
 let Parser                  = require('rss-parser');
-let parser                  = new Parser();
 var services                = require('../services');
 var helper                  = require("../helper");
 var axios                   = require("axios");
 
-async function getUrlThatNotInDb(payload,html){
 
+let parser = new Parser({
+  customFields:{
+    item:['StoryImage','fullimage']
+  }
+});
+
+async function getUrlThatNotInDb(payload,html){
   payload = payload.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ').trim();
   var reg = new RegExp('<a[^>]* href="([^"]*)" id[^>]*>'+payload+'</a>',"g");
   ans = html.match(reg);
-  // console.log(ans,'debug');
   var resultUrl;
   if(ans){
     try{
@@ -18,9 +22,7 @@ async function getUrlThatNotInDb(payload,html){
       resultUrl = null;
     }
   }
-  // console.log(resultUrl);
   return resultUrl;
-
 }
 
 var readRssAndSave = async (payload,callback)=>{
@@ -51,13 +53,12 @@ var readRssAndSave = async (payload,callback)=>{
                   var time = new Date();
                   for(var i=0 ; i<feed.items.length ; i++)
                   {
-                    console.log(feed.items[i]);
                     var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
                     feed.items[i].serverdate = dateString;
-                    feed.items[i].category = helper.feedUrls.getCategory[payload];
-                    feed.items[i].subcategory = payload;
+                    category = helper.feedUrls.getCategory[payload];
                     feed.items[i].scrapedat = Date.now();
-                    var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},feed.items[i],{upsert: true});
+                    var detailToSave = helper.getNewsObjectToSave.createNewsObject(feed.items[i],category,payload,feed.title);
+                    var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},detailToSave,{upsert: true});
                     console.log('saved-1');
                   }
                   callback(null,feed.items)
@@ -79,10 +80,10 @@ var readRssAndSave = async (payload,callback)=>{
                     {
                       var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
                       feed.items[i].serverdate = dateString;
-                      feed.items[i].category = helper.feedUrls.getCategory[payload];
-                      feed.items[i].subcategory = payload;
+                      category = helper.feedUrls.getCategory[payload];
                       feed.items[i].scrapedat = Date.now();
-                      var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},feed.items[i],{upsert: true});
+                      var detailToSave = helper.getNewsObjectToSave.createNewsObject(feed.items[i],category,payload,feed.title);
+                      var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},detailToSave,{upsert: true});
                       console.log('saved-2');
                     }
                     callback(null,feed.items)

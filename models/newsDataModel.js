@@ -1,5 +1,10 @@
 var mongoose = require('mongoose');
 var newsModel = mongoose.Schema({
+    source : {
+      type:String,
+      trim:true,
+      default : 'unknown'
+    },
     title : {
       type:String,
       trim:true
@@ -46,6 +51,16 @@ var newsModel = mongoose.Schema({
       default : null
     },
     scrapedat : {
+      type:String,
+      trim:true,
+      default : null
+    },
+    image : {
+      type:String,
+      trim:true,
+      default : null
+    },
+    video : {
       type:String,
       trim:true,
       default : null

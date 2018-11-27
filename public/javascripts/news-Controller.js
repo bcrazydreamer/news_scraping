@@ -1,17 +1,20 @@
-function createSuperContent(title,content,date,url){
-    date = date.substring(0,16);
+function createSuperContent(news){
+    date = news.pubDate.substring(0,16);
     var imageHtml = '';
-    var title = '<a class="news-title" href="'+url+'" target="_blank">'+title+'</a><p class="news-publish-date">'+date+'</p>';
-    if(content){
-      try{
-          var imgReg = content.match(/<img[^>]*?src="([^<]*?)"[^>]*?>/)[1] || '';
-      }catch(err){
-        var imgReg = '';
-      }
+    var title = '<a class="news-title" href="'+news.link+'" target="_blank">'+news.title+'</a><p class="news-publish-date">'+date+'&nbsp;&nbsp<strong>'+news.source+'</strong></p>';
+    if(news.source.indexOf('Times of India')>=0){
+      logo = 'logo-sm.png';
+    }else if(news.source.indexOf('NDTV')>=0){
+      logo = 'logo-ndtv.png';
     }
-    imageHtml = (imgReg != '') ? '<a><img src="'+imgReg+'" class="news-image" hspace="10" align="left" onerror="this.onerror=null;this.src=\'app_pics/bg/logo-sm.png\';" /></a>' : '';
-    content = content.replace(/<a[^>]*?>[^>]*?<img[^>]*?>[^>]*?<\/a>/,'');
-    return imageHtml + title + content;
+    imageHtml = (news.image) ? '<a><img src="'+news.image+'" class="news-image" hspace="10" align="left" onerror="this.onerror=null;this.src=\'app_pics/bg/'+logo+'\';" /></a>' : '';
+    if(!(news.content)){
+      news.content = '';
+    }
+    if((imageHtml.length==0) && (news.content.length==0)){
+        imageHtml = '<a><img src="app_pics/bg/'+logo+'" class="news-image" hspace="10" align="left" /></a>';
+    }
+    return imageHtml + title + news.content;
 }
 
 function createNewsDiv(news){
@@ -20,7 +23,7 @@ function createNewsDiv(news){
     code += '<div class="col-sm-12 news-main-div allSidesSoft">';
     code += ' <div class="col-sm-12 news_description">';
     code += '   <div class="col-sm-12">'
-    code +=       createSuperContent(news.title,news.content,news.pubDate,news.link);
+    code +=       createSuperContent(news);
     code += '   </div>';
     code += '<div class="col-sm-12 share-icon-div">';
     code += '<div class="dropdown">';
@@ -42,6 +45,7 @@ function createNewsDiv(news){
     code += '</div>';
     code += '</div>';
   }catch(err){
+    console.log(err);
     code = "";
   }
   return code;
