@@ -1,10 +1,8 @@
-let Parser = require('rss-parser');
-let parser = new Parser();
-var helper = require("../helper");
-var axios  = require("axios");
-var MongoClient = require('mongodb').MongoClient;
-mongourl = helper.AppConstant.mongoUrl;
-
+let Parser                  = require('rss-parser');
+let parser                  = new Parser();
+var services                = require('../services');
+var helper                  = require("../helper");
+var axios                   = require("axios");
 
 async function getUrlThatNotInDb(payload,html){
 
@@ -26,43 +24,44 @@ async function getUrlThatNotInDb(payload,html){
 }
 
 var readRssAndSave = async (payload,callback)=>{
-  MongoClient.connect(mongourl,{ useNewUrlParser: true },async function(err,db)
-  {
-    if(err){
-      callback(err,db);
-    } else {
           var newsDataInDb=[];
           // result give rss from db
-          let result = await db.db('news_scraper').collection('rss_links').findOne({subcategory:payload});
+          let result = await services.rssService.asyncFindOne({subcategory:payload},{},{});
           if(result){
-            try{
-              //to check todays news
-              var timeF = new Date();
-              var dateStringF = timeF.toLocaleString('en-US', { day: 'numeric' }) + timeF.toLocaleString('en-US', { month: 'numeric' }) + timeF.toLocaleString('en-US', { year: 'numeric' });
-              newsDataInDb = await db.db('news_scraper').collection('news_datas').find({subcategory:payload,serverdate:dateStringF}).toArray();
-            }catch(err){
-              newsDataInDb = [];
-            }
-            if(newsDataInDb.length){
-              callback(null,newsDataInDb)
-              return;
-            }else{
-              var removeOldDateIfAny = await db.db('news_scraper').collection('news_datas').remove({subcategory:payload});
-              // console.log(removeOldDateIfAny,'-----');
-              let feed = await parser.parseURL(result.rssurl);
-              var time = new Date();
-              for(var i=0 ; i<feed.items.length ; i++)
-              {
-                var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
-                feed.items[i].serverdate = dateString;
-                feed.items[i].category = helper.feedUrls.getCategory[payload];
-                feed.items[i].subcategory = payload;
-                feed.items[i].scrapedat = Date.now();
-                var saveResult = await db.db('news_scraper').collection('news_datas').insert(feed.items[i]);
-                console.log('saved');
-              }
-              callback(null,feed.items)
-            }
+                //to check todays news
+                var timeF = new Date();
+                var dateStringF = timeF.toLocaleString('en-US', { day: 'numeric' }) + timeF.toLocaleString('en-US', { month: 'numeric' }) + timeF.toLocaleString('en-US', { year: 'numeric' });
+                try{
+                    newsDataInDb = await services.newsService.asyncFind({subcategory:payload,serverdate:dateStringF},{},{});
+                }catch(err){
+                    newsDataInDb = [];
+                }
+                if(newsDataInDb.length){
+                  callback(null,newsDataInDb)
+                  return;
+                }
+                else
+                {
+                  try{
+                      var removeOldDateIfAny = await services.newsService.asyncRemove({subcategory:payload});
+                  }catch(err){
+                    removeOldDateIfAny = null;
+                  }
+                  let feed = await parser.parseURL(result.rssurl);
+                  var time = new Date();
+                  for(var i=0 ; i<feed.items.length ; i++)
+                  {
+                    console.log(feed.items[i]);
+                    var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
+                    feed.items[i].serverdate = dateString;
+                    feed.items[i].category = helper.feedUrls.getCategory[payload];
+                    feed.items[i].subcategory = payload;
+                    feed.items[i].scrapedat = Date.now();
+                    var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},feed.items[i],{upsert: true});
+                    console.log('saved-1');
+                  }
+                  callback(null,feed.items)
+                }
           }
           else
           {
@@ -83,7 +82,8 @@ var readRssAndSave = async (payload,callback)=>{
                       feed.items[i].category = helper.feedUrls.getCategory[payload];
                       feed.items[i].subcategory = payload;
                       feed.items[i].scrapedat = Date.now();
-                      var saveResult = await db.db('news_scraper').collection('news_datas').insertMany([feed.items[i]]);
+                      var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},feed.items[i],{upsert: true});
+                      console.log('saved-2');
                     }
                     callback(null,feed.items)
                     return;
@@ -98,8 +98,6 @@ var readRssAndSave = async (payload,callback)=>{
                 callback(null,null);
               });
           }
-      }
-  });
 }
 
 
