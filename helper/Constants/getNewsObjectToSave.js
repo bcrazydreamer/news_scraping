@@ -36,7 +36,7 @@ var createNewsObject = (item,category,subcategory,source)=>{
     newsOb.category = category || null;
     newsOb.subcategory = subcategory || null;
 
-    newsOb.serverdate = item.serverdate || time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
+    newsOb.serverdate = item.serverdate;
     if(item.fullimage){
       newsOb.image = item.fullimage;
     }else if(item.StoryImage) {

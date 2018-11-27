@@ -25,6 +25,11 @@ async function getUrlThatNotInDb(payload,html){
   return resultUrl;
 }
 
+var hourAlphaCode = {
+    1:'a',2:'b',3:'c',4:'d',5:'e',6:'f',7:'g',8:'h',9:'i',10:'j',11:'k',12:'l',
+    13:'m',14:'n',15:'o',16:'p',17:'q',18:'r',19:'s',20:'t',21:'u',22:'v',23:'w',24:'x',0:'y'
+}
+
 var readRssAndSave = async (payload,callback)=>{
           var newsDataInDb=[];
           // result give rss from db
@@ -32,7 +37,7 @@ var readRssAndSave = async (payload,callback)=>{
           if(result){
                 //to check todays news
                 var timeF = new Date();
-                var dateStringF = timeF.toLocaleString('en-US', { day: 'numeric' }) + timeF.toLocaleString('en-US', { month: 'numeric' }) + timeF.toLocaleString('en-US', { year: 'numeric' });
+                var dateStringF = timeF.toLocaleString('en-US', { day: 'numeric' }) + timeF.toLocaleString('en-US', { month: 'numeric' }) + timeF.toLocaleString('en-US', { year: 'numeric' }) + hourAlphaCode[timeF.getHours()];
                 try{
                     newsDataInDb = await services.newsService.asyncFind({subcategory:payload,serverdate:dateStringF},{},{});
                 }catch(err){
@@ -51,17 +56,19 @@ var readRssAndSave = async (payload,callback)=>{
                   }
                   let feed = await parser.parseURL(result.rssurl);
                   var time = new Date();
+                  var result4callback = [];
                   for(var i=0 ; i<feed.items.length ; i++)
                   {
-                    var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
+                    var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' }) + hourAlphaCode[timeF.getHours()];
                     feed.items[i].serverdate = dateString;
                     category = helper.feedUrls.getCategory[payload];
                     feed.items[i].scrapedat = Date.now();
                     var detailToSave = helper.getNewsObjectToSave.createNewsObject(feed.items[i],category,payload,feed.title);
                     var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},detailToSave,{upsert: true});
                     console.log('saved-1');
+                    result4callback.push(detailToSave);
                   }
-                  callback(null,feed.items)
+                  callback(null,result4callback)
                 }
           }
           else
@@ -76,17 +83,19 @@ var readRssAndSave = async (payload,callback)=>{
                   dataUrl.then(async (url)=>{
                     let feed = await parser.parseURL(url);
                     var time = new Date();
+                    var result4callback = [];
                     for(var i=0 ; i<feed.items.length ; i++)
                     {
-                      var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' });
+                      var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' }) + hourAlphaCode[timeF.getHours()];
                       feed.items[i].serverdate = dateString;
                       category = helper.feedUrls.getCategory[payload];
                       feed.items[i].scrapedat = Date.now();
                       var detailToSave = helper.getNewsObjectToSave.createNewsObject(feed.items[i],category,payload,feed.title);
                       var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},detailToSave,{upsert: true});
                       console.log('saved-2');
+                      esult4callback.push(detailToSave);
                     }
-                    callback(null,feed.items)
+                    callback(null,detailToSave)
                     return;
                   },(err)=>{
                     callback(err,null)

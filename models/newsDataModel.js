@@ -42,7 +42,7 @@ var newsModel = mongoose.Schema({
       default : null
     },
     serverdate : {
-      type:Number,
+      type:String,
       default : 0
     },
     subcategory : {
