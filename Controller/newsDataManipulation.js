@@ -59,7 +59,7 @@ var readRssAndSave = async (payload,callback)=>{
                   var result4callback = [];
                   for(var i=0 ; i<feed.items.length ; i++)
                   {
-                    var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' }) + hourAlphaCode[timeF.getHours()];
+                    var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' }) + hourAlphaCode[time.getHours()];
                     feed.items[i].serverdate = dateString;
                     category = helper.feedUrls.getCategory[payload];
                     feed.items[i].scrapedat = Date.now();
@@ -86,16 +86,16 @@ var readRssAndSave = async (payload,callback)=>{
                     var result4callback = [];
                     for(var i=0 ; i<feed.items.length ; i++)
                     {
-                      var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' }) + hourAlphaCode[timeF.getHours()];
+                      var dateString = time.toLocaleString('en-US', { day: 'numeric' }) + time.toLocaleString('en-US', { month: 'numeric' }) + time.toLocaleString('en-US', { year: 'numeric' }) + hourAlphaCode[time.getHours()];
                       feed.items[i].serverdate = dateString;
                       category = helper.feedUrls.getCategory[payload];
                       feed.items[i].scrapedat = Date.now();
                       var detailToSave = helper.getNewsObjectToSave.createNewsObject(feed.items[i],category,payload,feed.title);
                       var saveResult = await services.newsService.asyncUpdate({title:feed.items[i].title},detailToSave,{upsert: true});
                       console.log('saved-2');
-                      esult4callback.push(detailToSave);
+                      result4callback.push(detailToSave);
                     }
-                    callback(null,detailToSave)
+                    callback(null,result4callback)
                     return;
                   },(err)=>{
                     callback(err,null)
