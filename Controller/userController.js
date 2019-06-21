@@ -52,7 +52,7 @@ var saveNewsInUser = function (criteria, callback) {
     }
     var data = {};
     data._id = mongoose.Types.ObjectId(criteria.newsId);
-    services.newsService.find(data,{},{}, (err,newsData) => {
+    services.newsService.find(data,{},{}, async (err,newsData) => {
             if(err) {
                 callback(err);
                 return;
@@ -60,10 +60,15 @@ var saveNewsInUser = function (criteria, callback) {
                 if(newsData){
                     if(newsData.length){
                       var detailToSaveInUser = newsData[0];
+                      var savedNews = await services.savedNewsService.asyncFindOne({_id:detailToSaveInUser._id},{},{});
+                      if(savedNews){
+                        return callback(null,savedNews);
+                      }
                       detailToSaveInUser.savedby = criteria.user;
                       detailToSaveInUser.serverdate = new Date().getTime();
                       services.savedNewsService.insert(detailToSaveInUser,(err,response)=>{
                         if(err){
+                          console.log(err,'----Saved News Error');
                           callback('Unable to save please try after some time');
                           return;
                         }else{

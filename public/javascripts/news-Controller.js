@@ -19,6 +19,7 @@ function createSuperContent(news){
 
 function createNewsDiv(news){
   var code = "";
+  console.log(news._id);
   try{
     code += '<div class="col-sm-12 news-main-div allSidesSoft">';
     code += ' <div class="col-sm-12 news_description">';

@@ -73,7 +73,6 @@ router.post('/saved',helper.auth.isLoggedInUser,function(req, res, next) {
     data.user = mongoose.Types.ObjectId(req.session.passport.user._id);
     controllers.userController.saveNewsInUser(data,(err,response)=>{
         if(err){
-          console.log(err);
           res.status(500).send('Something went wrong');
         }else{
           res.send(response);
