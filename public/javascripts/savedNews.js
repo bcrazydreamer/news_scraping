@@ -110,34 +110,39 @@ function initSavedNews(){
 
 
 function fillWeatherInfoOnScreen(resp){
-    $('.weather-location').text(resp[0].current.observationpoint);
-    $('.wether-outside').text(resp[0].current.skytext);
-    $('.temprature-info').text(resp[0].current.temperature+'° c');
-    $('.current-weather-icon').attr('src','/app_pics/weather/'+getImageOfWeather(resp[0].current.skytext));
-    var code = '';
-    code += '<div class="row" style="padding:0;margin:0">';
-    for(var i=0;i<resp[0].forecast.length;i++){
-      if(!vali.isMobile()){
-        if(i==2 || i==3){
-          code +='<div class="col-sm-1 col-xs-1"></div>';
-        }
-      }
-      code += '<div class="col-sm-2 col-xs-4" style="padding-top:20px;">';
-      code += '<center>';
-      if(i==0){
-        code += '  <p class="forecast-date-day">Today</p>';
-      }else{
-        code += '  <p class="forecast-date-day">'+resp[0].forecast[i].shortday+'</p>';
-      }
-      code += '  <img src="/app_pics/weather/'+getImageOfWeather(resp[0].forecast[i].skytextday)+'" class="forecast-weather-icon">';
-      code += '  <p class="temprature-info-forecast-hight">'+resp[0].forecast[i].high+'° c</p>';
-      code += '  <p class="temprature-info-forecast-low">'+resp[0].forecast[i].low+'° c</p>';
-      code += '</center>';
-      code += '</div>';
+    try{
+            $('.weather-location').text(resp[0].current.observationpoint);
+            $('.wether-outside').text(resp[0].current.skytext);
+            $('.temprature-info').text(resp[0].current.temperature+'° c');
+            $('.current-weather-icon').attr('src','/app_pics/weather/'+getImageOfWeather(resp[0].current.skytext));
+            var code = '';
+            code += '<div class="row" style="padding:0;margin:0">';
+            for(var i=0;i<resp[0].forecast.length;i++){
+              if(!vali.isMobile()){
+                if(i==2 || i==3){
+                  code +='<div class="col-sm-1 col-xs-1"></div>';
+                }
+              }
+              code += '<div class="col-sm-2 col-xs-4" style="padding-top:20px;">';
+              code += '<center>';
+              if(i==0){
+                code += '  <p class="forecast-date-day">Today</p>';
+              }else{
+                code += '  <p class="forecast-date-day">'+resp[0].forecast[i].shortday+'</p>';
+              }
+              code += '  <img src="/app_pics/weather/'+getImageOfWeather(resp[0].forecast[i].skytextday)+'" class="forecast-weather-icon">';
+              code += '  <p class="temprature-info-forecast-hight">'+resp[0].forecast[i].high+'° c</p>';
+              code += '  <p class="temprature-info-forecast-low">'+resp[0].forecast[i].low+'° c</p>';
+              code += '</center>';
+              code += '</div>';
+            }
+            code +='</div>';
+            code += '&nbsp;'
+            $('#weather-forecast-div').append(code);
+    }catch(err){
+        console.log("Unable to get weather forecast");
+        $('#weather-forecast-div').css({"display":"none"});
     }
-    code +='</div>';
-    code += '&nbsp;'
-    $('#weather-forecast-div').append(code);
 }
 function initweatherInfo(){
   var data = {};
