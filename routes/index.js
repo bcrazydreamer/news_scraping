@@ -94,6 +94,16 @@ router.get('/getNews/:id',function(req, res, next) {
 });
 
 
+function getWeather(loc,cb){
+  weather.find({search: loc, degreeType: 'C'}, function(err, result) {
+    if(err){
+      cb(err,null);
+    }else{
+      cb(null,result);
+    }
+  });
+}
+
 router.post('/api/weatherInfo',function(req, res, next) {
   if(!req.body.location){
     loc = 'Delhi';
@@ -106,15 +116,33 @@ router.post('/api/weatherInfo',function(req, res, next) {
   } else {
     loc = 'Delhi';
   }
-  weather.find({search: loc, degreeType: 'C'}, function(err, result) {
-    if(err){
-      console.log(err);
-      res.status(400).send(err);
-    }else{
-      res.status(200).send(result);
+  getWeather(loc,function(_er,_rs){
+    if(_er){
+        getWeather("Delhi",function(_er_2,_rs_2){
+          if(_er_2){
+            return res.status(200).send([]);
+          } else {
+            return res.status(200).send(_rs_2);
+          }
+        });
+    } else {
+      try{
+        if(_rs.length==0){
+          getWeather("Delhi",function(_er_2,_rs_2){
+            if(_er_2){
+              return res.status(200).send([]);
+            } else {
+              return res.status(200).send(_rs_2);
+            }
+          });
+        } else {
+          return res.status(200).send(_rs);
+        }
+      }catch(err){
+        return res.status(200).send([]);
+      }
     }
-});
-
+  });
 });
 
 router.get('/logout',function(req,res){
