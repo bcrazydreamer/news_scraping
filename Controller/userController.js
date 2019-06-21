@@ -61,6 +61,7 @@ var saveNewsInUser = function (criteria, callback) {
                     if(newsData.length){
                       var detailToSaveInUser = newsData[0];
                       detailToSaveInUser.savedby = criteria.user;
+                      detailToSaveInUser.serverdate = new Date().getTime();
                       services.savedNewsService.insert(detailToSaveInUser,(err,response)=>{
                         if(err){
                           callback('Unable to save please try after some time');

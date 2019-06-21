@@ -9,6 +9,7 @@ const controllers         = require('../Controller')
 var path                  = require('path');
 var fs                    = require('fs');
 var weather               = require('weather-js');
+var mongoose              = require('mongoose');
 
 router.get('/',helper.auth.isAllreadyLoggedInUser,function(req, res, next) {
     res.render('index', { title: 'Home',news_data:'',user : ''});
@@ -68,8 +69,8 @@ router.get('/getsavednewsRequest',helper.auth.isLoggedInUser,function(req, res, 
 
 router.post('/saved',helper.auth.isLoggedInUser,function(req, res, next) {
     var data = {};
-    data.newsId = req.body.newsId;
-    data.user = req.session.passport.user._id;
+    data.newsId = mongoose.Types.ObjectId(req.body.newsId);
+    data.user = mongoose.Types.ObjectId(req.session.passport.user._id);
     controllers.userController.saveNewsInUser(data,(err,response)=>{
         if(err){
           console.log(err);
