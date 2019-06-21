@@ -96,9 +96,15 @@ router.get('/getNews/:id',function(req, res, next) {
 
 router.post('/api/weatherInfo',function(req, res, next) {
   if(!req.body.location){
-    loc = 'Haryana';
+    loc = 'Delhi';
   }else{
     loc = req.body.location;
+  }
+  console.log("Location Detail--------------->",req.body);
+  if(typeof loc === 'string' && loc.trim().length > 0){
+    loc = req.body.location;
+  } else {
+    loc = 'Delhi';
   }
   weather.find({search: loc, degreeType: 'C'}, function(err, result) {
     if(err){
