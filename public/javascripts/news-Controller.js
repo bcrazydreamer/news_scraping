@@ -140,7 +140,7 @@ function fillWeatherInfoOnScreen(resp){
 }
 function initweatherInfo(){
   var data = {};
-  $.get("http://ipinfo.io", function(response) {
+  $.get("https://ipinfo.io", function(response) {
     if(response){
       if(response.city){
         data.location = response.city;
